@@ -10,6 +10,9 @@ Run large language models locally with [Ollama](https://ollama.com).
 # Start and enable on boot
 sudo systemctl enable --now ollama
 
+# Or use on demand
+ollama serve
+
 # Check status
 systemctl status ollama
 
@@ -23,19 +26,19 @@ sudo systemctl stop ollama
 
 ```bash
 # Pull a model
-ollama pull llama3.2
+ollama pull qwen3.5:9b-q4_K_M
 
 # Chat interactively
-ollama run llama3.2
+ollama run qwen3.5:9b-q4_K_M
 
 # One-shot prompt
-ollama run llama3.2 "Explain containers in one paragraph"
+ollama run qwen3.5:9b-q4_K_M "Explain containers in one paragraph"
 
 # List downloaded models
 ollama list
 
 # Remove a model
-ollama rm llama3.2
+ollama rm qwen3.5:9b-q4_K_M
 ```
 
 ## Formats:
@@ -51,18 +54,35 @@ Ollama exposes a local API on `http://localhost:11434`.
 ```bash
 # Generate
 curl http://localhost:11434/api/generate \
-  -d '{"model":"llama3.2","prompt":"Hello!","stream":false}'
+  -d '{"model":"qwen3.5:9b-q4_K_M","prompt":"Hello!","stream":false}'
 
 # Chat
 curl http://localhost:11434/api/chat \
   -d '{
-    "model": "llama3.2",
+    "model": "qwen3.5:9b-q4_K_M",
     "messages": [{"role":"user","content":"Hello!"}],
     "stream": false
   }'
 
 # List models
 curl http://localhost:11434/api/tags
+```
+
+---
+
+## Claude Code
+
+Open models can be used with Claude Code (Anthropic's agentic coding tool) through Ollama’s Anthropic-compatible API, enabling you to use models such as qwen3.5, glm-5:cloud, kimi-k2.5:cloud.
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+Start Claude Code with  a model:
+
+```bash
+ollama serve
+ollama launch claude --model qwen3.5:9b-q4_K_M
 ```
 
 ---
@@ -88,7 +108,7 @@ sudo systemctl restart ollama
 ## Firewall (optional — expose to LAN)
 
 ```bash
-sudo firewall-cmd --permanent --add-port=11434/tcp
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="192.168.2.0/24" port protocol="tcp" port="11434" accept'
 sudo firewall-cmd --reload
 ```
 
@@ -102,7 +122,7 @@ Ollama auto-detects NVIDIA and AMD GPUs.
 
 ```bash
 # Check if GPU is being used
-ollama run llama3.2 "hi"
+ollama run qwen3.5:9b-q4_K_M "hi"
 # Look for "using GPU" in: journalctl -u ollama -f
 
 # NVIDIA — install drivers + CUDA
@@ -118,7 +138,7 @@ sudo dnf install akmod-nvidia
 journalctl -u ollama -f
 
 # Reset a stuck model
-ollama stop llama3.2
+ollama stop qwen3.5:9b-q4_K_M
 
 # Check available disk space (models can be large)
 df -h ~/.ollama

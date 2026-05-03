@@ -85,6 +85,23 @@ ollama serve
 ollama launch claude --model qwen3.5:9b-q4_K_M
 ```
 
+### Manual setup
+
+```bash
+ANTHROPIC_AUTH_TOKEN=ollama ANTHROPIC_BASE_URL=http://localhost:11434 ANTHROPIC_API_KEY="" claude --model qwen3.5:9b-q4_K_M
+```
+
+### Tooling
+
+Uv is an extremely fast Python package and project manager written in Rust.
+It can be used to install the `claude-monitor` tool, which provides a real-time dashboard for monitoring model performance and resource usage.
+
+```bash
+sudo dnf install uv
+uv tool install claude-monitor
+ccmonitor --view realtime
+```
+
 ---
 
 ## Configuration

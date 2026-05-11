@@ -1,0 +1,6 @@
+FROM hf.co/Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF:Q4_K_M
+
+PARAMETER num_ctx 32768
+PARAMETER temperature 0.8
+PARAMETER repeat_penalty 1.1
+PARAMETER num_predict -1
